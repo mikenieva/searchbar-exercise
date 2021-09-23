@@ -26,6 +26,8 @@ This will create a locally hosted backend that you can access at `http://localho
 
 ### Data models
 
+This database will create a random collection of Products, Animals, and Companies for you to connect your app to. The data is re-generated each time you start the server.
+
 ```typescript
 interface Product {
     type: 'product';
@@ -45,11 +47,12 @@ interface Address {
     postalCode: string;
 }
 
-interface Place {
-    type: 'place';
+interface Company {
+    type: 'company';
     id: string;
     starred: boolean;
     name: string;
+    description: string;
     address: Address;
 }
 
@@ -68,12 +71,32 @@ interface Animal = {
 }
 ```
 
+### Supported routes
+
+```
+GET    /search
+GET    /search/:id
+POST   /search
+PUT    /search/:id
+PATCH  /search/:id
+DELETE /search/:id
+```
+
+when doing requests, it's good to know that:
+
+- If you make POST, PUT, PATCH or DELETE requests, changes will be automatically and safely saved to `db.json` using [lowdb](https://github.com/typicode/lowdb).
+- Changes will persist so long as the server is running, and will be overwritten next time it is tarted
+- Your request body JSON should be object enclosed, just like the GET output. (for example `{"name": "Foobar"}`)
+- Id values are not mutable. Any `id` value in the body of your PUT or PATCH request will be ignored. Only a value set in a POST request will be respected, but only if not already taken.
+- A POST, PUT or PATCH request should include a `Content-Type: application/json` header to use the JSON in the request body. Otherwise it will return a 2XX status code, but without changes being made to the data.
+
 ### Filter
 
-Use `.` to access deep properties
+All field names are available as filters. Use `.` to access deep properties
 
 ```
 GET /search?id=animal.5
+GET /search?name=snake
 GET /search?taxonomy.family=dog
 ```
 
@@ -102,4 +125,4 @@ GET /search?_page=7
 GET /search?_page=7&_limit=20
 ```
 
-By default all matching results are returned
+By default ALL matching results are returned

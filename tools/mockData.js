@@ -5,7 +5,7 @@ const style = require("@dicebear/avatars-avataaars-sprites");
 const SET_SIZE = 2500;
 const DATA_TYPES = {
   animal: "animal",
-  place: "place",
+  company: "company",
   product: "product",
 };
 
@@ -14,7 +14,7 @@ const generateAnimals = () => {
   for (let i = 0; i < SET_SIZE; i++) {
     const skipImgEvery = 4;
     const animalType = faker.animal.type();
-    const name = faker.animal[animalType]();
+    const name = `${faker.commerce.color()} ${faker.animal[animalType]()}`;
 
     const animal = {
       type: DATA_TYPES.animal,
@@ -43,8 +43,8 @@ const generateAvatar = (seed) => {
   return svg;
 };
 
-const generatePlaces = () => {
-  const places = [];
+const generateCompanies = () => {
+  const companies = [];
   const useSecondaryAddressEvery = 4;
 
   for (let i = 0; i < SET_SIZE; i++) {
@@ -59,17 +59,18 @@ const generatePlaces = () => {
       address.address2 = faker.address.secondaryAddress();
     }
 
-    const place = {
-      type: DATA_TYPES.place,
-      id: `${DATA_TYPES.place}.${i}`,
+    const company = {
+      type: DATA_TYPES.company,
+      id: `${DATA_TYPES.company}.${i}`,
       starred: false,
-      name: faker.company.companyName(),
+      name: `${faker.company.companyName()}`,
+      description: `${faker.company.bsAdjective()} ${faker.company.catchPhraseDescriptor()} ${faker.company.catchPhraseNoun()}`,
       address,
     };
 
-    places.push(place);
+    companies.push(company);
   }
-  return places;
+  return companies;
 };
 
 const generateProducts = () => {
@@ -96,13 +97,13 @@ const generateProducts = () => {
 
 const generateMockData = () => {
   const animals = generateAnimals();
-  const places = generatePlaces();
+  const companies = generateCompanies();
   const products = generateProducts();
   return {
     animals,
-    places,
+    companies,
     products,
-    search: [...animals, ...places, ...products],
+    search: [...animals, ...companies, ...products],
   };
 };
 
