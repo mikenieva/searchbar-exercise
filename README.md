@@ -1,6 +1,6 @@
 # fe-interview-backend
 
-This repository contains a local mock backend server for the brightwheel frontend coding challenge, as well as an empty React app using `create-react-app` which you can use as a starting point if you like.
+This repository contains a local mock backend server for the brightwheel frontend coding challenge as well as an empty React app using `create-react-app`, which you should use as a starting point.
 
 ## Getting started
 
@@ -82,17 +82,23 @@ PATCH  /search/:id
 DELETE /search/:id
 ```
 
-when doing requests, it's good to know that:
+When doing requests, it's good to know that:
 
 - If you make POST, PUT, PATCH or DELETE requests, changes will be automatically and safely saved to `db.json` using [lowdb](https://github.com/typicode/lowdb).
-- Changes will persist so long as the server is running, and will be overwritten next time it is tarted
+- Changes will persist so long as the server is running and will be overwritten next time the server is started
 - Your request body JSON should be object enclosed, just like the GET output. (for example `{"name": "Foobar"}`)
 - Id values are not mutable. Any `id` value in the body of your PUT or PATCH request will be ignored. Only a value set in a POST request will be respected, but only if not already taken.
-- A POST, PUT or PATCH request should include a `Content-Type: application/json` header to use the JSON in the request body. Otherwise it will return a 2XX status code, but without changes being made to the data.
+- A POST, PUT or PATCH request should include a `Content-Type: application/json` header to use the JSON in the request body. Otherwise it will return a 2XX status code, but no changes will be made to the data.
 
-### Filter
+### Search
 
-All field names are available as filters. Use `.` to access deep properties
+Add `q` to search ALL the fields for a string
+
+```
+GET /search?q=fish
+```
+
+Search individual fields by field name. Use `.` to access deep properties
 
 ```
 GET /search?id=animal.5
@@ -107,12 +113,6 @@ GET /search?name_like=cat
 ```
 
 ### Full-text search
-
-Add `q`
-
-```
-GET /search?q=fish
-```
 
 ### Paginate
 

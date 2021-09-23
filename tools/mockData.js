@@ -99,11 +99,21 @@ const generateMockData = () => {
   const animals = generateAnimals();
   const companies = generateCompanies();
   const products = generateProducts();
+
+  let interleavedResults = [];
+  for (let i = 0; i < SET_SIZE; i++) {
+    interleavedResults = interleavedResults.concat(
+      animals[i],
+      companies[i],
+      products[i]
+    );
+  }
+
   return {
     animals,
     companies,
     products,
-    search: [...animals, ...companies, ...products],
+    search: interleavedResults,
   };
 };
 
