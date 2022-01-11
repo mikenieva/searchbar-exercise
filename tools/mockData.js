@@ -1,4 +1,4 @@
-const faker = require("faker");
+const faker = require("./faker");
 const { createAvatar } = require("@dicebear/avatars");
 const style = require("@dicebear/avatars-avataaars-sprites");
 
