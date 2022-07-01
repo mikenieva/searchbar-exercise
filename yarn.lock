@@ -1219,6 +1219,11 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
+"@dicebear/adventurer@^4.10.2":
+  version "4.10.2"
+  resolved "https://registry.yarnpkg.com/@dicebear/adventurer/-/adventurer-4.10.2.tgz#ee08627f2ba86838fcde5ce7f09169af88665cd5"
+  integrity sha512-thH6gNfVO0S6M4Vfk2smztoBSunA80eQKJ/UKM8XAn+fejgHHqfeIXHGqDCFO2EMZ75jagE8K3XCTCOSPjcRYQ==
+
 "@dicebear/avatars-avataaars-sprites@^4.9.1":
   version "4.9.1"
   resolved "https://registry.yarnpkg.com/@dicebear/avatars-avataaars-sprites/-/avatars-avataaars-sprites-4.9.1.tgz#1d211f598467b1cb7ca43c8412879f08b3764fa2"

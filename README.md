@@ -1,6 +1,6 @@
 # fe-interview-backend
 
-This repository contains a local mock backend server for the brightwheel frontend coding challenge as well as an empty React app using `create-react-app`, which you should use as a starting point.
+This repository contains a local mock backend server for the brightwheel frontend coding challenge as well as an empty React app using `create-react-app`, which you may use as a starting point. Feel free to use a different frontend framework (Angular/Vue/Svelte/etc..) or vanilla JS if you prefer.
 
 ## Getting started
 
@@ -26,48 +26,24 @@ This will create a locally hosted backend that you can access at `http://localho
 
 ### Data models
 
-This database will create a random collection of Products, Animals, and Companies for you to connect your app to. The data is re-generated each time you start the server.
+This database will create a random collection of fake Companies for you to connect your app to. The data is re-generated each time you start the server.
 
 ```typescript
-interface Product {
-    type: 'product';
-    id: string;
-    starred: boolean;
-    name: string;
-    productCategory: string;
-    previewText: string;
-    image?: string;
-}
-
 interface Address {
-    address1: string;
-    address2?: string;
-    city: string;
-    state: string;
-    postalCode: string;
+  address1: string;
+  address2?: string;
+  city: string;
+  state: string;
+  postalCode: string;
 }
 
 interface Company {
-    type: 'company';
-    id: string;
-    starred: boolean;
-    name: string;
-    description: string;
-    address: Address;
-}
-
-interface Taxonomy {
-    family: string;
-    scientificName: string;
-}
-
-interface Animal = {
-    type: 'animal';
-    id: string;
-    starred: boolean;
-    taxonomy: Taxonomy;
-    name: string;
-    image?: string;
+  id: string;
+  starred: boolean;
+  name: string;
+  description: string;
+  address: Address;
+  image?: string;
 }
 ```
 
@@ -101,7 +77,7 @@ GET /search?q=fish
 Search individual fields by field name. Use `.` to access deep properties
 
 ```
-GET /search?id=animal.5
+GET /search?id=company.5
 GET /search?name=snake
 GET /search?taxonomy.family=dog
 ```
