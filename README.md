@@ -1,6 +1,10 @@
 # fe-interview-backend
 
-This repository contains a local mock backend server for the brightwheel frontend coding challenge as well as an empty React app using `create-react-app`, which you may use as a starting point. Feel free to use a different frontend framework (Angular/Vue/Svelte/etc..) or vanilla JS if you prefer.
+This repository contains a local mock backend server for the brightwheel frontend coding challenge as well as an empty vite react typescript template, which you may use as a starting point. Feel free to use a different frontend framework (Angular/Vue/Svelte/etc..) or vanilla JS if you prefer.
+
+## Project Requirements
+
+Here's a link to the [requirements for the project](https://github.com/brightwheel/fe-interview-backend/blob/main/REQUIREMENTS.md).
 
 ## Getting started
 
