@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
-import _ from "lodash";
-import "./App.css";
-import SearchInput from "./components/SearchInput";
-import CompanyCard from "./components/CompanyCard";
-import LoadingIndicator from "./components/LoadingIndicator";
-import StarredCount from "./components/StarredCount";
+import React, { useState, useEffect } from 'react';
+import _ from 'lodash';
+import './App.css';
+import SearchInput from './components/SearchInput';
+import CompanyCard from './components/CompanyCard';
+import LoadingIndicator from './components/LoadingIndicator';
+import StarredCount from './components/StarredCount';
+import Header from './components/Layout/Header';
 
 interface Address {
   address1: string;
@@ -24,7 +25,7 @@ interface Company {
 }
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState<Company[]>([]);
   const [starredCount, setStarredCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -35,12 +36,12 @@ function App() {
       const url = `http://localhost:3001/search?q=${searchTerm}&_page=1&_limit=10`;
       const response = await fetch(url);
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error('Network response was not ok');
       }
       const data = await response.json();
       setResults(data);
     } catch (error) {
-      console.error("Error fetching data: ", error);
+      console.error('Error fetching data: ', error);
       setResults([]);
     } finally {
       setIsLoading(false);
@@ -64,15 +65,15 @@ function App() {
 
     try {
       const response = await fetch(`http://localhost:3001/search/${id}`, {
-        method: "PATCH",
+        method: 'PATCH',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ starred: !result.starred }),
       });
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error('Network response was not ok');
       }
 
       const updatedResults = results.map((result) =>
@@ -82,7 +83,7 @@ function App() {
 
       setStarredCount(updatedResults.filter((result) => result.starred).length);
     } catch (error) {
-      console.error("Error updating starred status: ", error);
+      console.error('Error updating starred status: ', error);
     }
   };
 
@@ -94,12 +95,12 @@ function App() {
           `http://localhost:3001/search?starred=true`
         );
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error('Network response was not ok');
         }
         const data = await response.json();
         setStarredCount(data.length);
       } catch (error) {
-        console.error("Error fetching starred count: ", error);
+        console.error('Error fetching starred count: ', error);
       } finally {
         setIsLoading(false);
       }
@@ -109,24 +110,28 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <header>
-        <SearchInput searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      </header>
-      <main>
-        <StarredCount count={starredCount} />
-        {isLoading ? (
-          <LoadingIndicator />
-        ) : (
-          results.map((company) => (
-            <CompanyCard
-              key={company.id}
-              company={company}
-              toggleStar={toggleStar}
-            />
-          ))
-        )}
-      </main>
+    <div>
+      <Header />
+
+      <div className="">
+        <header>
+          <SearchInput searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        </header>
+        <main>
+          <StarredCount count={starredCount} />
+          {isLoading ? (
+            <LoadingIndicator />
+          ) : (
+            results.map((company) => (
+              <CompanyCard
+                key={company.id}
+                company={company}
+                toggleStar={toggleStar}
+              />
+            ))
+          )}
+        </main>
+      </div>
     </div>
   );
 }

@@ -16,7 +16,11 @@
     "start:mock": "run-p dev start:api"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.19",
+    "@heroicons/react": "^2.1.3",
+    "autoprefixer": "^10.4.19",
     "lodash": "^4.17.21",
+    "postcss": "^8.4.38",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -34,6 +38,7 @@
     "eslint-plugin-react-refresh": "^0.4.6",
     "json-server": "^0.16.3",
     "npm-run-all": "^4.1.5",
+    "tailwindcss": "^3.4.3",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
   },
