@@ -1,36 +1,54 @@
-# fe-interview-backend
+# Company Directory App - Exercise
 
-This repository contains a local mock backend server for the brightwheel frontend coding challenge as well as an empty vite react typescript template, which you may use as a starting point. Feel free to use a different frontend framework (Angular/Vue/Svelte/etc..) or vanilla JS if you prefer.
+This project serves as a comprehensive example of a React application that interfaces with a mock backend server. It showcases a dynamic company directory where users can search, view, and update company information. The application is built using React and TypeScript, demonstrating best practices in modern web development.
 
-## Project Requirements
+## Getting Started
 
-Here's a link to the [requirements for the project](https://github.com/brightwheel/fe-interview-backend/blob/main/REQUIREMENTS.md).
+To get the application up and running on your local machine, follow these steps:
 
-## Getting started
+### Prerequisites
 
-Install project dependencies
+Ensure you have the following installed:
 
-```
-yarn install
-```
+- Node.js (v12 or higher recommended)
+- Yarn package manager
 
-Start the frontend and the mock backend together
+### Installation
 
-```
-yarn start:mock
-```
+1. Clone the repository to your local machine.
 
-Or start the backend by itself
+2. Install the necessary dependencies:
 
 ```
-yarn start:api
+$ npm install
 ```
 
-This will create a locally hosted backend that you can access at `http://localhost:3001`
+### Running the application
 
-### Data models
+To start both the frontend application and the mock backend server simultaneously, run:
 
-This database will create a random collection of fake Companies for you to connect your app to. The data is re-generated each time you start the server.
+```
+$ npm run start:mock
+```
+
+Alternatively, to start only the backend server:
+
+```
+$ npm run start:api
+```
+
+The frontend application will be available at `http://localhost:3000`, and the backend server can be accessed at `http://localhost:3001`.
+
+## Features
+
+- **Search Functionality:** Users can search for companies by name or other attributes.
+- **Pagination:** Supports pagination to efficiently manage and navigate through large datasets.
+- **Dynamic Updates:** Users can star or unstar companies, with changes persisting during the session.
+- **Responsive Design:** Crafted to provide an optimal viewing experience across a wide range of devices.
+
+## Data Models
+
+The application uses a simple data model for companies, including fields such as name, description, and address. Here is a brief overview of the model:
 
 ```typescript
 interface Address {
@@ -40,7 +58,6 @@ interface Address {
   state: string;
   postalCode: string;
 }
-
 interface Company {
   id: string;
   starred: boolean;
@@ -51,58 +68,11 @@ interface Company {
 }
 ```
 
-### Supported routes
+## Backend API
 
-```
-GET    /search
-GET    /search/:id
-POST   /search
-PUT    /search/:id
-PATCH  /search/:id
-DELETE /search/:id
-```
+The mock backend supports several routes for interacting with the company data:
 
-When doing requests, it's good to know that:
-
-- If you make POST, PUT, PATCH or DELETE requests, changes will be automatically and safely saved to `db.json` using [lowdb](https://github.com/typicode/lowdb).
-- Changes will persist so long as the server is running and will be overwritten next time the server is started
-- Your request body JSON should be object enclosed, just like the GET output. (for example `{"name": "Foobar"}`)
-- Id values are not mutable. Any `id` value in the body of your PUT or PATCH request will be ignored. Only a value set in a POST request will be respected, but only if not already taken.
-- A POST, PUT or PATCH request should include a `Content-Type: application/json` header to use the JSON in the request body. Otherwise it will return a 2XX status code, but no changes will be made to the data.
-
-### Search
-
-Add `q` to search ALL the fields for a string
-
-```
-GET /search?q=fish
-```
-
-Search individual fields by field name. Use `.` to access deep properties
-
-```
-GET /search?id=company.5
-GET /search?name=snake
-GET /search?taxonomy.family=dog
-```
-
-Add `_like` to filter (RegExp supported)
-
-```
-GET /search?name_like=cat
-```
-
-### Full-text search
-
-### Paginate
-
-Use `_page` and optionally `_limit` to paginate returned data.
-
-In the `Link` header you'll get `first`, `prev`, `next` and `last` links.
-
-```
-GET /search?_page=7
-GET /search?_page=7&_limit=20
-```
-
-By default ALL matching results are returned
+- `GET /search`: Retrieve a list of companies.
+- `GET /search/:id`: Get details of a specific company.
+- `PATCH /search/:id`: Update the starred status of a company.
+- Additional routes for creating and deleting companies are also supported.
