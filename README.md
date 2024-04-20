@@ -42,9 +42,7 @@ The frontend application will be available at `http://localhost:3000`, and the b
 ## Features
 
 - **Search Functionality:** Users can search for companies by name or other attributes.
-- **Pagination:** Supports pagination to efficiently manage and navigate through large datasets.
 - **Dynamic Updates:** Users can star or unstar companies, with changes persisting during the session.
-- **Responsive Design:** Crafted to provide an optimal viewing experience across a wide range of devices.
 
 ## Data Models
 
