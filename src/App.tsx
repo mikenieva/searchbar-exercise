@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import _ from 'lodash';
 import './App.css';
 import SearchInput from './components/SearchInput';
@@ -6,23 +6,10 @@ import CompanyCard from './components/CompanyCard';
 import LoadingIndicator from './components/LoadingIndicator';
 import StarredCount from './components/StarredCount';
 import Header from './components/Layout/Header';
-
-interface Address {
-  address1: string;
-  address2?: string;
-  city: string;
-  state: string;
-  postalCode: string;
-}
-
-interface Company {
-  id: string;
-  starred: boolean;
-  name: string;
-  description: string;
-  address: Address;
-  image?: string;
-}
+import { Company } from './interfaces';
+import { URL } from './constants/constants';
+import useFetchData from './hooks/useFetchData';
+import useToggleStar from './hooks/useToggleStar';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -33,7 +20,7 @@ function App() {
   const fetchData = async (searchTerm: string) => {
     setIsLoading(true);
     try {
-      const url = `http://localhost:3001/search?q=${searchTerm}&_page=1&_limit=10`;
+      const url = `${URL.api}/search?name_like=${searchTerm}&_page=1&_limit=10`;
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -48,7 +35,7 @@ function App() {
     }
   };
 
-  const debouncedFetchData = React.useCallback(_.debounce(fetchData, 300), []);
+  const debouncedFetchData = useCallback(_.debounce(fetchData, 300), []);
 
   useEffect(() => {
     if (searchTerm) {
@@ -60,28 +47,35 @@ function App() {
   }, [searchTerm, debouncedFetchData]);
 
   const toggleStar = async (id: string) => {
-    const result = results.find((result) => result.id === id);
-    if (!result) return;
+    const resultIndex = results.findIndex((result) => result.id === id);
+    if (resultIndex === -1) return;
 
+    const newStarredStatus = !results[resultIndex].starred;
     try {
-      const response = await fetch(`http://localhost:3001/search/${id}`, {
+      const response = await fetch(`${URL.api}/search/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ starred: !result.starred }),
+        body: JSON.stringify({ starred: newStarredStatus }),
       });
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
 
-      const updatedResults = results.map((result) =>
-        result.id === id ? { ...result, starred: !result.starred } : result
-      );
-      setResults(updatedResults);
+      setResults((currentResults) => {
+        const updatedResults = [...currentResults];
+        updatedResults[resultIndex] = {
+          ...updatedResults[resultIndex],
+          starred: newStarredStatus,
+        };
+        return updatedResults;
+      });
 
-      setStarredCount(updatedResults.filter((result) => result.starred).length);
+      setStarredCount((currentCount) =>
+        newStarredStatus ? currentCount + 1 : currentCount - 1
+      );
     } catch (error) {
       console.error('Error updating starred status: ', error);
     }
@@ -91,12 +85,11 @@ function App() {
     const fetchStarredCount = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(
-          `http://localhost:3001/search?starred=true`
-        );
+        const response = await fetch(`${URL.api}/search?starred=true`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
+
         const data = await response.json();
         setStarredCount(data.length);
       } catch (error) {
@@ -112,24 +105,33 @@ function App() {
   return (
     <div>
       <Header />
-
       <div className="">
-        <header>
-          <SearchInput searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-        </header>
         <main>
-          <StarredCount count={starredCount} />
-          {isLoading ? (
-            <LoadingIndicator />
-          ) : (
-            results.map((company) => (
-              <CompanyCard
-                key={company.id}
-                company={company}
-                toggleStar={toggleStar}
-              />
-            ))
-          )}
+          <div className="py-24 sm:py-32 lg:pb-40">
+            <div className="mx-auto max-w-7xl px-6 lg:px-8">
+              <div className="mx-auto max-w-2xl text-center">
+                <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                  Find companies
+                </h1>
+                <SearchInput
+                  searchTerm={searchTerm}
+                  setSearchTerm={setSearchTerm}
+                />
+                <StarredCount count={starredCount} />
+                {isLoading ? (
+                  <LoadingIndicator />
+                ) : (
+                  results.map((company) => (
+                    <CompanyCard
+                      key={company.id}
+                      company={company}
+                      toggleStar={toggleStar}
+                    />
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
         </main>
       </div>
     </div>

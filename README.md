@@ -11,7 +11,7 @@ To get the application up and running on your local machine, follow these steps:
 Ensure you have the following installed:
 
 - Node.js (v12 or higher recommended)
-- Yarn package manager
+- NPM package manager
 
 ### Installation
 
@@ -72,7 +72,6 @@ interface Company {
 
 The mock backend supports several routes for interacting with the company data:
 
-- `GET /search`: Retrieve a list of companies.
 - `GET /search/:id`: Get details of a specific company.
 - `PATCH /search/:id`: Update the starred status of a company.
 - Additional routes for creating and deleting companies are also supported.

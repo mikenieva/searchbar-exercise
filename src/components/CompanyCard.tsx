@@ -1,5 +1,6 @@
 import React from 'react';
 import { Company } from '../interfaces';
+import Button from './Elements/Button';
 
 interface CompanyCardProps {
   company: Company;
@@ -12,7 +13,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company, toggleStar }) => {
       <li key={company.name} className="flex flex-col gap-10 pt-12 sm:flex-row">
         <img
           className="aspect-[4/5] w-52 flex-none rounded-2xl object-cover"
-          src={company.image}
+          src={company.image || '/icons8-company-100.png'}
           alt=""
         />
         <div className="max-w-xl flex-auto">
@@ -23,11 +24,18 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company, toggleStar }) => {
             {company.description}
           </p>
           <p className="mt-6 text-base leading-7 text-gray-600">
+            {company.address.address1}
+          </p>
+          <p className="text-base leading-7 text-gray-600">
             {company.address.city}, {company.address.state}
           </p>
-          <button onClick={() => toggleStar(company.id)}>
-            Starred: {company.starred ? 'Yes' : 'No'} {'(Click to toggle)'}
-          </button>
+          <p className="text-base leading-7 text-gray-600">
+            {company.address.postalCode}
+          </p>
+
+          <Button variant="base" onclickfn={() => toggleStar(company.id)}>
+            Starred: {company.starred ? 'Yes' : 'No'}
+          </Button>
         </div>
       </li>
     </ul>
